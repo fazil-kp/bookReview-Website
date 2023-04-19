@@ -1,0 +1,4 @@
+node_modules
+.env
+seedGenre.js
+seed.js

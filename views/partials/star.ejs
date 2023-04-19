@@ -1,0 +1,87 @@
+<style>
+  .rating {
+    display: flex;
+    padding: 0;
+    margin: 0;
+  }
+
+  .rating li {
+    list-style-type: none;
+  }
+
+  .rating-item {
+    cursor: pointer;
+    font-size: 2em;
+    color: #ffd700;
+  }
+
+  /* initial: make all stars full */
+  .rating-item::before {
+    content: "\2605";
+  }
+
+  /* make until the clicked star (the rest) empty */
+  .rating-item.active ~ .rating-item::before {
+    content: "\2606";
+  }
+
+  /* on hover make all full */
+  .rating:hover .rating-item::before {
+    content: "\2605";
+  }
+
+  /* make until the hovered (the rest) empty */
+  .rating-item:hover ~ .rating-item::before {
+    content: "\2606";
+  }
+</style>
+<% if(user){ %> 
+<ul id="<%= book.id %>" class="rating" style="margin-left: 27px;" >
+  <% let rate; %> 
+  <% let query =book.rating.find(r=> r.user == user._id) ; %> 
+  <% if(query){ %>   
+    <%  rate = query.rate  %> 
+  <% }else{%>
+    <li class="rating-item active " style="display: none;"></li>
+    <% } %> 
+
+    <% for(let i=1;i<6;i++){ %> 
+    <li class="rating-item <%= rate == i ? "active":"" %>"  data-rate="<%= i %> "></li>
+    <% } %> 
+</ul>
+<% } %> 
+
+
+<script>
+  const container = document.querySelector(".rating");
+  
+  if(container){
+  container.onclick = async (e) => {
+    const bookId = container.id;
+    const items = container.querySelectorAll(".rating-item");
+    const starCount = e.target.getAttribute("data-rate");
+    const data = await fetch(
+      `${window.location.origin}/books/rate/${bookId}?star=${starCount}`,
+      {
+        method: "post",
+      }
+    );
+    if (data.status == 200) {
+      // change the rating if the user clicks on a different star
+
+      const elClass = e.target.classList;
+
+      if (!elClass.contains("active")) {
+        items.forEach(
+          // reset the active class on the star
+          (item) => item.classList.remove("active")
+        );
+        elClass.add("active"); // add active class to the clicked star
+      }
+    }
+  }
+  }
+
+</script>
+
+

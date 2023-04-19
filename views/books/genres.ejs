@@ -1,0 +1,13 @@
+<%- include('../partials/header.ejs') %>
+<br />
+<div class="container">
+  <ul class="list-group">
+    <% genres.forEach(genre=>{ %>
+    <li
+      class="list-group-item d-flex justify-content-between align-items-center"
+    >
+      <a href="/books/genres/<%= genre.name.toLowerCase() %>"> <%= genre.name %> </a>
+    </li>
+    <% }) %> 
+  </ul>
+</div>

@@ -1,0 +1,112 @@
+<script>
+  function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
+    }
+  }
+
+  async function getBooks(e) {
+    const list = document.getElementById("auto-complete");
+    const by = document.getElementById("inputState").value;
+    console.log(by);
+    const search = e.target.value;
+    const books = await fetch(
+      `${window.location.origin}/api/auto-complete?search=${search}&by=${by}`
+    ).then((res) => res.json());
+
+    removeAllChildNodes(list);
+
+    books.forEach((book) => {
+      const img = document.createElement("img");
+      img.src = book.coverUrl;
+      img.className = "auto-complete-img";
+      const p = document.createElement("p");
+      p.textContent = book.title;
+      p.className = "auto-complete-text col";
+      const a = document.createElement("a");
+      a.href = `/books/${book._id}`;
+      a.className = "row";
+      a.appendChild(img);
+      a.appendChild(p);
+      const li = document.createElement("li");
+      li.className = "list-group-item";
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+  }
+</script>
+<%- include('../partials/header.ejs') %>
+<br />
+<div class="container">
+  <form
+    action="/books"
+    method="GET"
+    class="d-flex"
+    style="justify-content: center; position: relative"
+  >
+    <div class="form-group col-md-2">
+      <select name="by" id="inputState" class="form-control">
+        <option selected>All</option>
+        <option>Title</option>
+        <option>Author</option>
+        <option>Language</option>
+        <option>Genre</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <input
+        id="search "
+        oninput="getBooks(event)"
+        name="search"
+        class="form-control me-sm-2"
+        type="text"
+        placeholder="Search"
+        style="width: 30rem"
+      />
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-success my-2 my-sm-0" type="submit">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+  </form>
+  <div class="d-flex" style="justify-content: center; position: relative">
+    <ul
+      id="auto-complete"
+      class="list-group"
+      style="width: 40rem; position: absolute; z-index: 2"
+    ></ul>
+  </div>
+
+  <div class="row py-3">
+    <% books.forEach(book => { %>
+    <div class="col-md-2 my-2">
+      <div class="card" style="border-radius: 0">
+        <img
+          style="height: 230px; border-radius: 0"
+          src="<%= book.coverUrl %>"
+          class="card-img-top"
+        />
+
+        <div class="card-body">
+          <p class="card-title" style="height: 8vh"><%= book.title %></p>
+
+          <% let sum = 0 %> <% book.rating.forEach(rate=>{ %> <% let val =
+          rate.rate %> <% sum += val %> <% }) %> <% let rating =
+          Math.round(sum/book.rating.length) %> %> <% if(book.rating.length !=
+          0){ %>
+          <p><i class="fas fa-star"></i> <%= rating %></p>
+          <% }else{ %>
+          <p><i class="fas fa-star"></i> Not rated</p>
+          <% } %>
+          <a
+            href="/books/<%= book.id %> "
+            class="btn btn-outline-success d-block"
+            >View</a
+          >
+        </div>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+</div>

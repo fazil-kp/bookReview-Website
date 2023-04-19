@@ -1,0 +1,113 @@
+<%- include('../partials/header.ejs') %>
+
+<div class="container">
+  <div class="py-5">
+    <h3 class="text-center text-warning"><%= book.title %></h3>
+    <p class="text-center"><%= book.genre %></p>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <img class="single-cover" src="<%= book.coverUrl %> " />
+      <% if(book.getBook != ''){ %>
+      <a
+        href="<%= book.getBook %> "
+        class="btn btn-outline-success my-4"
+        style="width: 182px"
+        target="_blank"
+        ><i class="fas fa-shopping-cart"></i> GET THE BOOK
+      </a>
+      
+        <% } %> <%- include('../partials/star.ejs') %>
+        
+      
+    </div>
+    <div class="col-md-9">
+      <div class="d-flex justify-content-around py-5">
+        <h6><strong>Author : </strong><%= book.author %></h6>
+        <h6><strong>Language : </strong><%= book.language %></h6>
+        <h6><strong>Year : </strong><%= book.year %></h6>
+        <h6>
+          <strong><%= book.isbn == ''?'':"ISBN no:" %> </strong><%= book.isbn %>
+        </h6>
+      </div>
+      <p style="color: grey"><%= book.description %></p>
+      <div class="d-flex justify-content-around" style="margin-top: 100px">
+        <% if(user){ %> <% if(user._id == book.userId){ %>
+        <div>
+          <a class="btn btn-outline-warning" href="/books/<%= book.id %>/edit "
+            ><i class="fas fa-pencil-alt"></i
+          ></a>
+        </div>
+        <form method="POST" action="/books/<%= book.id %>?_method=DELETE ">
+          <button type="submit" class="btn btn-outline-danger">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </form>
+        <% } %> <% } %>
+      </div>
+    </div>
+  </div>
+  <br />
+  <br />
+  <hr />
+  <h4><i class="fas fa-comment"></i> Comments</h4>
+
+  <% if(user){ %>
+  <div class="comment-input d-flex justify-content-center">
+    <form action="/books/<%= book.id %> " method="POST">
+      <input
+        id="comment"
+        type="text"
+        name="comment"
+        placeholder="Post a Comment"
+        required
+        style="color: aliceblue"
+      />
+      <button class="btn btn-dark" style="color: #67b943" type="submit">
+        Submit
+      </button>
+    </form>
+  </div>
+  <% } %> <% comments.forEach(comment=>{ %>
+  <div class="comment-card">
+    <div class="like-heart">
+      <a name="<%= comment._id %>" onclick="like(this)"
+        ><i class="far fa-heart"></i
+      ></a>
+      <p class="" id="<%= comment._id %>"><%= comment.likes.length %></p>
+    </div>
+    <h6><%= comment.userId.name %></h6>
+    <p><%= comment.comment %></p>
+    <% if(user){ %> <% if(user._id == comment.userId.id) {%>
+    <form
+      class="left"
+      method="POST"
+      action="/books/comment/<%= comment._id %>?_method=DELETE"
+    >
+      <button type="submit" class="btn">
+        <i class="fas fa-trash-alt c-delete"></i>
+      </button>
+    </form>
+    <% } %> <% } %>
+  </div>
+  <% }) %>
+</div>
+<script>
+  async function like(comment) {
+    const id = comment.name;
+    const response = await fetch(`${window.location.origin}/books/like/${id}`, {
+      method: "post",
+    });
+    const no = document.getElementById(id);
+    if (response.status === 200) {
+      const data = await response.json();
+      if (data.action == "liked") {
+        no.textContent = parseInt(no.textContent) + 1;
+      } else if (data.action == "removed") {
+        no.textContent = parseInt(no.textContent) - 1;
+      }
+    } else {
+      document.location.href = "/users/login";
+    }
+  }
+</script>

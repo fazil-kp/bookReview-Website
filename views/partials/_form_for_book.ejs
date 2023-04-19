@@ -1,0 +1,132 @@
+<div class="container">
+
+
+</div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Book Title</label>
+        <input
+          class="form-control"
+          type="text"
+          name="title"
+          placeholder="Title"
+          required="true"
+          value="<%= book.title %> "
+        />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Author</label>
+        <input
+          class="form-control"
+          type="text"
+          name="author"
+          placeholder="Author"
+          required="true"
+          value="<%= book.author %> "
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Language</label>
+        <input
+          class="form-control"
+          type="text"
+          name="language"
+          placeholder="Lang"
+          required="true"
+          value="<%= book.language %> "
+
+        />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Cover Image URL</label>
+        <input
+          class="form-control"
+          type="text"
+          name="coverUrl"
+          placeholder="Image Url"
+          required="true"
+          value="<%= book.coverUrl%> "
+
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Year of Publication</label>
+        <input
+          class="form-control"
+          type="text"
+          name="year"
+          placeholder="Year"
+          required="true"
+          value="<%= book.year %> "
+
+        />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>ISBN no:</label>
+        <input
+          class="form-control"
+          type="text"
+          name="isbn"
+          placeholder="ISBN"
+          value="<%= book.isbn %> "
+
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Genre</label>
+        <select name="genre" class="form-control" >
+         <% genres.forEach(genre=>{ %> 
+            <option value="<%= genre.name %>"><%= genre.name %> </option>
+         <% }) %> 
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Link to Get the Book</label>
+        <input
+          class="form-control"
+          type="text"
+          name="getBook"
+          placeholder="Link"
+          value="<%= book.getBook %> "
+        />
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Description</label>
+    <textarea
+      class="form-control"
+      type="text"
+      name="description"
+      placeholder="Description"
+      required="true"
+      
+    ><%= book.description %></textarea>
+  </div>
+</div>
+  

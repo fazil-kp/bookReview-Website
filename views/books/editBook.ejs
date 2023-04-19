@@ -1,0 +1,12 @@
+<%- include('../partials/header.ejs') %>
+<br />
+<div class="container">
+  <h4>Edit Book</h4>
+  <form class="" action="/books/<%= book.id %>?_method=PUT " method="POST">
+    <% if(locals.errorMessage != null){ %> <%= errorMessage %> <% } %> <%-
+    include('../partials/_form_for_book.ejs') %>
+    <div class="container">
+      <button class="btn btn-primary" type="submit">Update</button>
+    </div>
+  </form>
+</div>
