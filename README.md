@@ -26,6 +26,6 @@ Link to website : https://bookbriefs.herokuapp.com
 ## How to Run
 For running locally:
 1. Clone from git (https://github.com/mohammed-fazil-kp/bookReviewApp.git)
-2. Install npm packages using command(npm install)
+2. Install npm packages using command(npm install).
 3. Set enviornment variables.
 4. Run using command (npm run start)
