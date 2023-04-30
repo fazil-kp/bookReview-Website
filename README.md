@@ -1,6 +1,5 @@
 ![BFH Banner](https://trello-attachments.s3.amazonaws.com/542e9c6316504d5797afbfb9/542e9c6316504d5797afbfc1/39dee8d993841943b5723510ce663233/Frame_19.png)
 # BookBriefs
-
 BookBriefs is a website where users can share the details of books that they read.And everybody else can review and rate the book , also can get the book.
 ## Team members
 1. Mohammed Fazil KP (https://github.com/mohammed-fazil-kp)
